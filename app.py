@@ -1,0 +1,133 @@
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+import hashlib
+import os
+
+app = Flask(__name__)
+app.secret_key = 'power-shop-secret-key-2025'
+
+PRODUCTS = [
+    {"id": 1, "name": "Wireless Headphones", "price": 79.99, "category": "Electronics", "image": "/static/images/headphones.jpg"},
+
+    {"id": 2, "name": "Smart Watch", "price": 199.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg"},
+
+    {"id": 3, "name": "Running Shoes", "price": 89.99, "category": "Sports", "image": "/static/images/running-shoes.jpg"}, 
+
+    {"id": 4, "name": "Leather Jacket", "price": 149.99, "category": "Fashion", "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400"},
+
+    {"id": 5, "name": "Coffee Maker", "price": 59.99, "category": "Home", "image": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400"},
+
+    {"id": 6, "name": "Backpack", "price": 45.99, "category": "Fashion", "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"},
+]
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def save_user(email, name, password):
+    hashed = hash_password(password)
+    with open('users.txt', 'a') as f:
+        f.write(f"{email}|{name}|{hashed}\n")
+
+def verify_user(email, password):
+    if not os.path.exists('users.txt'):
+        return None 
+    hashed = hash_password(password)
+    with open('users.txt', 'r') as f:
+        for line in f:
+            parts = line.strip().split('|')
+            if len(parts) == 3 and parts[0] == email and parts[2] == hashed:
+                return {"email": parts[0], "name": parts[1]}
+    return None
+
+def user_exists(email):
+    if not os.path.exists('users.txt'):
+        return False
+    with open('users.txt', 'r') as f:
+        for line in f:
+            if line.startswith(email + '|'):
+                return True
+    return False
+
+@app.route('/')
+def index():
+    if 'user' in session:
+        return render_template('index_logged_in.html')
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = verify_user(email, password)
+        if user:
+            session['user'] = user 
+            session['cart'] = []
+            return redirect(url_for('index'))
+        else:
+            return render_template('login.html')
+    return render_template('login.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        if user_exists(email):
+            return render_template('signup.html')
+        save_user(email, name, password)
+        session['user'] = {"email": email, "name": name}
+        session['cart'] = []
+        return redirect(url_for('index'))
+    return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+@app.route('/profile')
+def profile():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('profile.html')
+
+@app.route('/cart')
+def cart():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    cart_items = session.get('cart', [])
+    if len(cart_items) == 0:
+        return render_template('cart_empty.html')
+    return render_template('cart.html')
+
+@app.route('/add-to-cart/<int:product_id>')
+def add_to_cart(product_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    if 'cart' not in session:
+        session['cart'] = []
+    product = next((p for p in PRODUCTS if p['id'] == product_id), None)
+    if product:
+        cart = session['cart']
+        cart.append(product)
+        session['cart'] = cart
+    return redirect(url_for('cart'))
+
+@app.route('/remove-from-cart/<int:product_id>')
+def remove_from_cart(product_id):
+    if 'cart' in session:
+        cart = session['cart']
+        cart = [item for item in cart if item['id'] != product_id]
+        session['cart'] = cart
+    return redirect(url_for('cart'))
+
+@app.route('/checkout')
+def checkout():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    session['cart'] = []
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
