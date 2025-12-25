@@ -608,21 +608,42 @@ body {
     margin-left: 4rem;
 }
 
-.form-group p {
+.form-group label {
+    display: block;
     font-weight: 600;
     margin-bottom: 0.1rem;
 }
 
-.form-group input {
+.input-wrapper {
     width: 450px;
     height: 40px;
+    position: relative;
     border: 1px solid var(--text-muted);
     border-radius: 1rem;
 }
 
-.form-group input:focus {
+.input-wrapper input {
+    width: 400px;
+    font-size: 1rem;
+    padding: 10px 12px;
+    border: none;
+    outline: none;
+}
+
+.input-wrapper:focus-within {
     outline: none;
     border: 2px solid var(--primary);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.input-icon {
+    padding: 1rem 0 1rem 0.5rem;
 }
 
 .btn-login {
