@@ -6,17 +6,21 @@ app = Flask(__name__)
 app.secret_key = 'power-shop-secret-key-2025'
 
 PRODUCTS = [
-    {"id": 1, "name": "Wireless Headphones", "price": 79.99, "category": "Electronics", "image": "/static/images/headphones.jpg"},
+    {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphones.jpg"},
 
-    {"id": 2, "name": "Smart Watch", "price": 199.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg"},
+    {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg"}, 
 
-    {"id": 3, "name": "Running Shoes", "price": 89.99, "category": "Sports", "image": "/static/images/running-shoes.jpg"}, 
+    {"id": 3, "name": "Minimalist Leather Bag", "price": 159.99, "category": "Fashion", "image": "/static/images/purse.jpg"},
 
-    {"id": 4, "name": "Leather Jacket", "price": 149.99, "category": "Fashion", "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400"},
+    {"id": 4, "name": "Premium Running Shoes", "price": 159.99, "category": "Sports", "image": "/static/images/running-shoes.jpg"},
 
-    {"id": 5, "name": "Coffee Maker", "price": 59.99, "category": "Home", "image": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400"},
+    {"id": 5, "name": "Vintage Sunglasses", "price": 129.99, "category": "Fashion", "image": "/static/images/glasses.jpg"},
 
-    {"id": 6, "name": "Backpack", "price": 45.99, "category": "Fashion", "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"},
+    {"id": 6, "name": "Portable Speaker JBL", "price": 79.99, "category": "Electronics", "image": "/static/images/jbl-speaker.jpg"},
+
+    {"id": 7, "name": "Ceramic Coffee Mug", "price": 49.99, "category": "Home", "image": "/static/images/coffee-mug.jpg"},
+
+    {"id": 8, "name": "Premium Yoga Mat", "price": 89.99, "category": "Sports", "image": "/static/images/yoga-mat.jpg"},
 ]
 
 def hash_password(password):
