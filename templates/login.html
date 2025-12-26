@@ -22,7 +22,7 @@
 
             <form method="POST" action="/login"> 
                 <div class="form-group">
-                    <label>Email</label>
+                    <label for="email">Email</label>
                     <div class="input-wrapper">
                         <span class="input-icon">✉️</span>
                         <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
+                    <label for="password">Password</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
                         <input type="password" id="password" name="password" placeholder="Enter your password" required>
@@ -57,5 +57,12 @@
         </div>
     </div>
     
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="toast-error">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>

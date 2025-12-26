@@ -3,9 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Power-Shop</title>
+    <title>Login - Power-Shop</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+
+    <div class="auth-page">
+        <div class="auth-container right">
+            <div class="auth-image">
+                <img src="/static/images/logo.png" alt="Logo" class="logo">
+            </div>
+
+            <div class="auth-quote">
+                <h2>Join Power-Shop</h2>
+                <p>Create an account to unlock exclusive features, save your favorites, and enjoy a seamless shopping experience.</p>
+            </div>
+        </div>
+
+        <div class="auth-container left">
+            <div class="auth-header">
+                <a href="/">← Back to Home</a>
+                <div class="auth-brand">
+                    <img src="/static/images/logo.png" alt="Logo" class="logo">
+                    <span>Power-Shop</span>
+                </div>
+                <h1>Create account</h1>
+                <p>Fill in your details to get started</p>
+            </div>
+
+            <form method="POST" action="/signup">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" name="name" id="name" placeholder="Enter your name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Sign in</a></p>
+            </div>
+        </div>
+    </div>
     
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="toast-error">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>

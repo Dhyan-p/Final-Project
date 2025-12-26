@@ -63,12 +63,19 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         user = verify_user(email, password)
-        if user:
-            session['user'] = user 
-            session['cart'] = []
-            return redirect(url_for('index'))
-        else:
+        if not user_exists(email):
+            flash('Email not registered')
             return render_template('login.html')
+        
+        user = verify_user(email, password)
+        if not user: 
+            flash('password not matched')
+            return render_template('login.html')
+
+        session['user'] = user
+        session['cart'] = []
+        return render_template(url_for('index'))
+    
     return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -77,12 +84,21 @@ def signup():
         email = request.form.get('email')
         name = request.form.get('name')
         password = request.form.get('password')
-        if user_exists(email):
+        confirm_password = request.form.get('confirm_password')
+
+        if password != confirm_password:
+            flash('Passwords do not match')
             return render_template('signup.html')
+        
+        if user_exists(email):
+            flash('Email already registered')
+            return render_template('signup.html')
+        
         save_user(email, name, password)
         session['user'] = {"email": email, "name": name}
         session['cart'] = []
         return redirect(url_for('index'))
+    
     return render_template('signup.html')
 
 @app.route('/logout')
