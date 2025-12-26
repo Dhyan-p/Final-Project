@@ -10,11 +10,11 @@ PRODUCTS = [
 
     {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg"}, 
 
-    {"id": 3, "name": "Minimalist Leather Bag", "price": 159.99, "category": "Fashion", "image": "/static/images/purse.jpg"},
+    {"id": 3, "name": "Minimalist Leather Bag", "price": 189.99, "category": "Fashion", "image": "/static/images/purse.jpg"},
 
     {"id": 4, "name": "Premium Running Shoes", "price": 159.99, "category": "Sports", "image": "/static/images/running-shoes.jpg"},
 
-    {"id": 5, "name": "Vintage Sunglasses", "price": 129.99, "category": "Fashion", "image": "/static/images/glasses.jpg"},
+    {"id": 5, "name": "Sunglasses", "price": 129.99, "category": "Fashion", "image": "/static/images/glasses.jpg"},
 
     {"id": 6, "name": "Portable Speaker JBL", "price": 79.99, "category": "Electronics", "image": "/static/images/jbl-speaker.jpg"},
 
@@ -74,7 +74,7 @@ def login():
 
         session['user'] = user
         session['cart'] = []
-        return render_template(url_for('index'))
+        return redirect(url_for('index'))
     
     return render_template('login.html')
 
