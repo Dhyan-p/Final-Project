@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Power-Shop</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- ===NAVBAR=== -->
+     <nav class="navbar">
+        <!-- ===LEFT: LOGO=== -->
+        <a href="/" class="logo"> 
+            <img src="/static/images/logo.png" alt="Power-Shop Logo">
+            Power<span>-Shop</span>
+        </a>
+
+        <!-- ===CENTER: SEARCH BAR=== -->
+        <div class="nav-search">
+            <input type="text" placeholder="&#x2315; Search products...">
+        </div>
+
+        <!-- ===RIGHT: PROFILE $ CART $ LOGOUT=== -->
+         <div class="nav-action">
+            <a href="/profile" class="nav-link profile">👤</a>
+            <a href="/cart" class="nav-link cart">🛒</a>
+            <a href="/logout" class="nav-link logout">Logout</a>
+         </div>
+     </nav>
+
+    <!-- ===MAIN CONTENT=== -->
+     <div class="profile-page">
+        <div class="profile-card">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+                <h2>{{ session.user.name }}</h2>
+                <p>{{ session.user.email }}</p>
+            </div>
+        </div>
+
+        <div class="profile-menu">
+            <div class="profile-item">
+                <div class="profile-icon">📦</div>
+                <div class="profile-text">
+                    <h4>My Orders</h4>
+                    <p>Track and manage your orders</p>
+                </div>
+            </div>
+
+            <div class="profile-item">
+                <div class="profile-icon">❤️</div>
+                <div class="profile-text">
+                    <h4>Wishlist</h4>
+                    <p>Products you love</p>
+                </div>
+            </div>
+
+            <div class="profile-item">
+                <div class="profile-icon">⚙️</div>
+                <div class="profile-text">
+                    <h4>Settings</h4>
+                    <p>Account preferences</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-logout">
+            <a href="/logout">Sign Out</a>
+        </div>
+     </div>
+
+    <!-- ===FOOTER=== -->
+     <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><img src="/static/images/logo-footer.jpg" alt="Logo" class="logo-footer">Power-Shop</h4>
+                <p>Your one-stop destination for premium products. Quality meets style in every purchase.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a>
+                <a href="#products">Products</a>
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <a href="#">Electronics</a>
+                <a href="#">Fashion</a>
+                <a href="#">Sports</a>
+                <a href="#">Home</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📍 123 Main Street, City, Country</p>
+                <p>✉️ support@powershop.com</p>
+                <p>📞 +1 (123) 456-7890</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Power-Shop. All rights reserved. Demo Project</p>
+        </div>
+     </footer>
+    
+</body>
+</html>

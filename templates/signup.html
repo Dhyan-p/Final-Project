@@ -9,7 +9,9 @@
 <body>
 
     <div class="auth-page">
-        <div class="auth-container right">
+
+        <!-- ===LEFT CONTAINER=== -->
+        <div class="auth-container blue">
             <div class="auth-image">
                 <img src="/static/images/logo.png" alt="Logo" class="logo">
             </div>
@@ -20,7 +22,8 @@
             </div>
         </div>
 
-        <div class="auth-container left">
+        <!-- ===RIGHT CONTAINER=== -->
+        <div class="auth-container white">
             <div class="auth-header">
                 <a href="/">← Back to Home</a>
                 <div class="auth-brand">
@@ -73,6 +76,7 @@
         </div>
     </div>
     
+    <!-- ===ERROR MESSAGE=== -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="toast-error">
