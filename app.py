@@ -3,14 +3,17 @@ import hashlib
 import os
 
 # ==============================
-# App Configuration
+# Application Configuration
 # ==============================
 app = Flask(__name__)
+
+# Secret key used for session management and security
 app.secret_key = 'power-shop-secret-key-2025'
 
 # ==============================
 # Product Data
 # ==============================
+# Each product contains pricing, category, image path, and a maximum quantity allowed per user in the cart.
 PRODUCTS = [
     {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphones.jpg", "max_quantity": 5},
 
@@ -45,6 +48,7 @@ def hash_password(password):
     """
     return hashlib.sha256(password.encode()).hexdigest()
 
+
 def save_user(email, name, password):
     """ 
     Saves a new user's details to the user.txt file.
@@ -55,8 +59,10 @@ def save_user(email, name, password):
     password (str): User's plain-text password (will be hashed).
     """
     hashed = hash_password(password)
+
     with open('users.txt', 'a') as f:
         f.write(f"{email}|{name}|{hashed}\n")
+
 
 def verify_user(email, password):
     """ 
@@ -71,13 +77,18 @@ def verify_user(email, password):
     """
     if not os.path.exists('users.txt'):
         return None 
+    
     hashed = hash_password(password)
+
     with open('users.txt', 'r') as f:
         for line in f:
             parts = line.strip().split('|')
+
             if len(parts) == 3 and parts[0] == email and parts[2] == hashed:
                 return {"email": parts[0], "name": parts[1]}
+            
     return None
+
 
 def user_exists(email):
     """ 
@@ -91,11 +102,14 @@ def user_exists(email):
     """
     if not os.path.exists('users.txt'):
         return False
+    
     with open('users.txt', 'r') as f:
         for line in f:
             if line.startswith(email + '|'):
                 return True
+            
     return False
+
 
 # ==============================
 # Routes
@@ -109,6 +123,7 @@ def index():
     """
     if 'user' in session:
         return render_template('index_logged_in.html')
+    
     return render_template('index.html')
 
 # ------------------------------
@@ -126,18 +141,22 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = verify_user(email, password)
+        
+        # Check if the email exists before validating password
         if not user_exists(email):
             flash('Email not registered')
             return render_template('login.html')
         
         user = verify_user(email, password)
+
         if not user: 
             flash('password not matched')
             return render_template('login.html')
 
+        # Successful login
         session['user'] = user
         session['cart'] = {}
+
         return redirect(url_for('index'))
     
     return render_template('login.html')
@@ -169,8 +188,11 @@ def signup():
             return render_template('signup.html')
         
         save_user(email, name, password)
+
+        # Auto-login after successful signup
         session['user'] = {"email": email, "name": name}
         session['cart'] = {}
+
         return redirect(url_for('index'))
     
     return render_template('signup.html')
@@ -197,6 +219,7 @@ def profile():
     """
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     return render_template('profile.html')
 
 # ------------------------------
@@ -208,9 +231,8 @@ def cart():
     Displays the shopping cart.
     
     - Requires the user to be logged in.
-    - Retrieves cart items from the session.
-    - If the cart is empty, renders the empty cart page.
-    - If items exist, renders the cart page with all products and their corresponding quantities.
+    - Shows empty cart view if no items exist
+    - Calculates totals dynamically for cart items
     """
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -223,6 +245,7 @@ def cart():
     cart_items = []
     total = 0
 
+    # Build cart item list with product details
     for product_id, quantity in cart_data.items():
         product = next(p for p in PRODUCTS if p['id'] == int(product_id))
         item_total = product['price'] * quantity
@@ -255,13 +278,12 @@ def add_to_cart(product_id):
 
     cart = session['cart']
 
-    # Find product
+    # Find product by ID
     product = next((p for p in PRODUCTS if p['id'] == product_id), None)
     if not product:
         return redirect(url_for('index'))
 
     pid = str(product_id)
-
     current_quantity = cart.get(pid, 0)
 
     if current_quantity < product['max_quantity']:
@@ -283,11 +305,11 @@ def decrease_quantity(product_id):
         return redirect(url_for('login'))
 
     cart = session.get('cart', {})
-
     pid = str(product_id)
 
     if pid in cart:
         cart[pid] -= 1
+
         if cart[pid] <= 0:
             del cart[pid]
 
@@ -310,6 +332,7 @@ def remove_from_cart(product_id):
         cart = session['cart']
         cart.pop(str(product_id), None)
         session['cart'] = cart
+
     return redirect(url_for('cart'))
 
 # ------------------------------
@@ -319,14 +342,17 @@ def remove_from_cart(product_id):
 def checkout():
     """
     Clears the cart after checkout is completed.
+
+    (No payment processing - demo behavior only)
     """
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     session['cart'] = {}
     return redirect(url_for('index'))
 
 # ------------------------------
-# App Runner
+# Application Runner
 # ------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
