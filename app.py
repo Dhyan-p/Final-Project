@@ -12,21 +12,21 @@ app.secret_key = 'power-shop-secret-key-2025'
 # Product Data
 # ==============================
 PRODUCTS = [
-    {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphones.jpg"},
+    {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphones.jpg", "max_quantity": 5},
 
-    {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg"}, 
+    {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg", "max_quantity": 4}, 
 
-    {"id": 3, "name": "Minimalist Leather Bag", "price": 189.99, "category": "Fashion", "image": "/static/images/purse.jpg"},
+    {"id": 3, "name": "Minimalist Leather Bag", "price": 189.99, "category": "Fashion", "image": "/static/images/purse.jpg", "max_quantity": 5},
 
-    {"id": 4, "name": "Premium Running Shoes", "price": 159.99, "category": "Sports", "image": "/static/images/running-shoes.jpg"},
+    {"id": 4, "name": "Premium Running Shoes", "price": 159.99, "category": "Sports", "image": "/static/images/running-shoes.jpg", "max_quantity": 5},
 
-    {"id": 5, "name": "Sunglasses", "price": 129.99, "category": "Fashion", "image": "/static/images/glasses.jpg"},
+    {"id": 5, "name": "Sunglasses", "price": 129.99, "category": "Fashion", "image": "/static/images/glasses.jpg", "max_quantity": 8},
 
-    {"id": 6, "name": "Portable Speaker JBL", "price": 79.99, "category": "Electronics", "image": "/static/images/jbl-speaker.jpg"},
+    {"id": 6, "name": "Portable Speaker JBL", "price": 79.99, "category": "Electronics", "image": "/static/images/jbl-speaker.jpg", "max_quantity": 4},
 
-    {"id": 7, "name": "Ceramic Coffee Mug", "price": 49.99, "category": "Home", "image": "/static/images/coffee-mug.jpg"},
+    {"id": 7, "name": "Ceramic Coffee Mug", "price": 49.99, "category": "Home", "image": "/static/images/coffee-mug.jpg", "max_quantity": 10},
 
-    {"id": 8, "name": "Premium Yoga Mat", "price": 89.99, "category": "Sports", "image": "/static/images/yoga-mat.jpg"},
+    {"id": 8, "name": "Premium Yoga Mat", "price": 89.99, "category": "Sports", "image": "/static/images/yoga-mat.jpg", "max_quantity": 10},
 ]
 
 # ==============================
@@ -137,7 +137,7 @@ def login():
             return render_template('login.html')
 
         session['user'] = user
-        session['cart'] = []
+        session['cart'] = {}
         return redirect(url_for('index'))
     
     return render_template('login.html')
@@ -170,7 +170,7 @@ def signup():
         
         save_user(email, name, password)
         session['user'] = {"email": email, "name": name}
-        session['cart'] = []
+        session['cart'] = {}
         return redirect(url_for('index'))
     
     return render_template('signup.html')
@@ -206,36 +206,94 @@ def profile():
 def cart():
     """
     Displays the shopping cart.
-    Shows empty cart page if no items exist.
+    
+    - Requires the user to be logged in.
+    - Retrieves cart items from the session.
+    - If the cart is empty, renders the empty cart page.
+    - If items exist, renders the cart page with all products and their corresponding quantities.
     """
     if 'user' not in session:
         return redirect(url_for('login'))
-    cart_items = session.get('cart', [])
-    if len(cart_items) == 0:
+
+    cart_data = session.get('cart', {})
+
+    if not cart_data:
         return render_template('cart_empty.html')
-    return render_template('cart.html')
+
+    cart_items = []
+    total = 0
+
+    for product_id, quantity in cart_data.items():
+        product = next(p for p in PRODUCTS if p['id'] == int(product_id))
+        item_total = product['price'] * quantity
+        total += item_total
+
+        cart_items.append({
+            "product": product,
+            "quantity": quantity,
+            "item_total": item_total
+        })
+
+    return render_template('cart.html', cart_items=cart_items, total=total )
 
 # ------------------------------
 # Add to Cart
 # ------------------------------
-@app.route('/add-to-cart/<int:product_id>')
+@app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     """
     Adds a product to the user's cart.
 
-    Args:
-        product_id (int): ID of the product to add.
+    - If product exists, increase quantity (up to max limit).
+    - If not, add as new cart item.
     """
     if 'user' not in session:
         return redirect(url_for('login'))
-    if 'cart' not in session:
-        session['cart'] = []
+
+    if 'cart' not in session or not isinstance(session['cart'], dict):
+        session['cart'] = {}
+
+    cart = session['cart']
+
+    # Find product
     product = next((p for p in PRODUCTS if p['id'] == product_id), None)
-    if product:
-        cart = session['cart']
-        cart.append(product)
-        session['cart'] = cart
+    if not product:
+        return redirect(url_for('index'))
+
+    pid = str(product_id)
+
+    current_quantity = cart.get(pid, 0)
+
+    if current_quantity < product['max_quantity']:
+        cart[pid] = current_quantity + 1
+
+    session['cart'] = cart
     return redirect(url_for('cart'))
+
+# ------------------------------
+# Decrease Quantity
+# ------------------------------
+@app.route('/decrease/<int:product_id>')
+def decrease_quantity(product_id):
+    """
+    Decreases the quantity of a product in the cart by 1.
+    Removes the product completely if quantity reaches 0.
+    """
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    cart = session.get('cart', {})
+
+    pid = str(product_id)
+
+    if pid in cart:
+        cart[pid] -= 1
+        if cart[pid] <= 0:
+            del cart[pid]
+
+    session['cart'] = cart
+    return redirect(url_for('cart'))
+
 
 # ------------------------------
 # Remove from Cart
@@ -250,7 +308,7 @@ def remove_from_cart(product_id):
     """
     if 'cart' in session:
         cart = session['cart']
-        cart = [item for item in cart if item['id'] != product_id]
+        cart.pop(str(product_id), None)
         session['cart'] = cart
     return redirect(url_for('cart'))
 
@@ -264,7 +322,7 @@ def checkout():
     """
     if 'user' not in session:
         return redirect(url_for('login'))
-    session['cart'] = []
+    session['cart'] = {}
     return redirect(url_for('index'))
 
 # ------------------------------
