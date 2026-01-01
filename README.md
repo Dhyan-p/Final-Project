@@ -73,23 +73,23 @@ The website demonstrates:
 The project is organized to separate templates, static assets, and backend logic.
 
 project_root/
-├── app.py # Main Flask app with routing, backend logic, and session management
-├── requirements.txt # Python dependencies
-├── users.txt # Sample user data for authentication
-├── templates/ # HTML templates with Jinja2 for dynamic content
-│ ├── cart_empty.html
-│ ├── cart.html
-│ ├── index_logged_in.html
-│ ├── index.html
-│ ├── login.html
-│ ├── profile.html
-│ └── signup.html
-├── static/ # Static assets for styling and interactivity
-│ └── css/
-│ └── style.css
-| └── images/
-| └── (All images & logo for website)
-└── README.md
+├── app.py                 # Main Flask app with routing, backend logic, and session management
+├── requirements.txt       # Python dependencies
+├── users.txt              # Sample user data for authentication
+├── templates/             # HTML templates with Jinja2 for dynamic content
+│   ├── cart_empty.html
+│   ├── cart.html
+│   ├── index_logged_in.html
+│   ├── index.html
+│   ├── login.html
+│   ├── profile.html
+│   └── signup.html
+├── static/                # Static assets for styling and interactivity
+│   ├── css/
+│   │   └── style.css
+│   └── images/
+│       └── (All images & logo for website)
+└── README.md              # Project documentation
 
 ---
 
