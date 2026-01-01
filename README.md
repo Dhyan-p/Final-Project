@@ -72,6 +72,7 @@ The website demonstrates:
 ## 📂 Project Structure
 The project is organized to separate templates, static assets, and backend logic.
 
+```
 project_root/
 ├── app.py                 # Main Flask app with routing, backend logic, and session management
 ├── requirements.txt       # Python dependencies
@@ -90,6 +91,7 @@ project_root/
 │   └── images/
 │       └── (All images & logo for website)
 └── README.md              # Project documentation
+```
 
 ---
 
