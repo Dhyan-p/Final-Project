@@ -1,7 +1,7 @@
 # CS20 Major Project: Power-Shop
 
 **Power-Shop** is a Python web application built as the **CS20 Major Project**.
-It is a fully functional demo e-commerce website featuring user authentication, a shopping cart system, and dynamic product pages. This project demonstrates full-stack development using **Python, Flask, Jinja2 templating, and custon CSS**, with a focus on clean UI, usability, and maintainable backend code.
+It is a partially functional demo e-commerce website featuring user authentication, a shopping cart system, and dynamic product pages. This project demonstrates full-stack development using **Python, Flask, Jinja2 templating, and custon CSS**, with a focus on clean UI, usability, and maintainable backend code.
 
 ---
 
