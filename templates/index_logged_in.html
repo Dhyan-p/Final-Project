@@ -7,313 +7,364 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-
-    <!-- ===NAVBAR=== -->
-     <nav class="navbar">
-        <!-- ===LEFT: LOGO=== -->
-        <a href="/" class="logo"> 
-            <img src="/static/images/logo.png" alt="Power-Shop Logo">
-            Power<span>-Shop</span>
-        </a>
-
-        <!-- ===CENTER: SEARCH BAR=== -->
-        <div class="nav-search">
-            <input type="text" placeholder="&#x2315; Search products...">
+    {% block content %}
+        <!-- ===ERROR & SUCCESS MESSAGE=== -->
+        <div class="toast-container">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="toast toast-{{ category }}">
+                            {% if category == 'success' %}
+                                <span class="toast-icon">✅</span>
+                            {% elif category == 'error' %}
+                                <span class="toast-icon">⚠️</span>
+                            {% endif %}
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
 
-        <!-- ===RIGHT: PROFILE $ CART $ LOGOUT=== -->
-         <div class="nav-action">
-            <a href="/profile" class="nav-link profile">👤</a>
-            <a href="/cart" class="nav-link cart">🛒</a>
-            <a href="/logout" class="nav-link logout">Logout</a>
-         </div>
-     </nav>
-    
-    <!-- ===HERO SECTION=== -->
-     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-left">
-                <span class="hero-badge">&#10024; New Arrivals Available</span>
-                <h1>Discover Your<br>
-                <span>Perfect Style</span></h1>
+        <!-- ===NAVBAR=== -->
+        <nav class="navbar">
+            <!-- ===LEFT: LOGO=== -->
+            <a href="/" class="logo"> 
+                <img src="/static/images/logo.png" alt="Power-Shop Logo">
+                Power<span>-Shop</span>
+            </a>
 
-                <p>
-                    Explore our curated collection of premium products.From cutting-edge electronics to timeless fashion pieces, find everything you need in one place.
-                </p>
+            <!-- ===CENTER: SEARCH BAR=== -->
+            <div class="nav-search">
+                <input type="text" placeholder="&#x2315; Search products...">
+            </div>
 
-                <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">Shop Now</a>
-                </div>
+            <!-- ===RIGHT: PROFILE $ CART $ LOGOUT=== -->
+            <div class="nav-action">
+                <a href="/profile" class="nav-link profile">👤</a>
+                <a href="/cart" class="nav-link cart">🛒</a>
+                <a href="/logout" class="nav-link logout">Logout</a>
+            </div>
+        </nav>
+        
+        <!-- ===HERO SECTION=== -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-left">
+                    <span class="hero-badge">&#10024; New Arrivals Available</span>
+                    <h1>Discover Your<br>
+                    <span>Perfect Style</span></h1>
 
-                <div class="stats">
-                    <div class="stat">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Products</div>
+                    <p>
+                        Explore our curated collection of premium products.From cutting-edge electronics to timeless fashion pieces, find everything you need in one place.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#products" class="btn btn-primary">Shop Now</a>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">10K+</div>
-                        <div class="stat-label">Happy Customers</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">4.9</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="hero-right">
-                <img src="/static/images/hero-image.jpg" alt="Hero Image">
-            </div>
-        </div>
-     </section>
-
-    <!-- ===CATEGORIES=== -->
-     <section class="categories">
-        <h2 class="section-title">Shop by Category</h2>
-        <p class="section-p">Explore our diverse range of products across multiple categories</p>
-        <div class="categories-grid">
-            <div class="category-card">
-                <div class="category-icon">🎧</div>
-                <h3>Electronics</h3>
-                <p>3 Products</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-icon">👜</div>
-                <h3>Fashion</h3>
-                <p>2 Products</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-icon">👟</div>
-                <h3>Sports</h3>
-                <p>2 Products</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-icon">🏠</div>
-                <h3>Home</h3>
-                <p>1 Products</p>
-            </div>
-        </div>
-     </section>
-
-    <!-- ===PRODUCTS=== -->
-     <section class="products" id="products">
-        <div class="products-container">
-            <h2 class="section-title">Featured Products</h2>
-            <p class="section-p">Discover our handpicked selection of premium products that combine quality, style, and value</p>
-
-            <!-- ===PRODUCTS GRID TOP=== -->
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/headphone.jpg" alt="Wireless Headphones" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">ELECTRONICS</div>
-                        <h3 class="product-name">Wireless Pro Headphones</h3>
-                        <p>Premium wireless headphones with active noise cancellation and 30-hour battery life.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$299.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 1) }}" class="btn btn-outline">🛒 Add</a>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Products</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Happy Customers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">4.9</div>
+                            <div class="stat-label">Rating</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/smart-watch.jpg" alt="   Smart Watch" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">ELECTRONICS</div>
-                        <h3 class="product-name">Smart Watch Series X</h3>
-                        <p>Advanced smartwatch with health monitoring, GPS, and always-on display.</p>
+                <div class="hero-right">
+                    <img src="/static/images/hero-image.jpg" alt="Hero Image">
+                </div>
+            </div>
+        </section>
 
-                        <div class="product-action">
-                            <span class="product-price">$449.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 2) }}" class="btn btn-outline">🛒 Add</a>
+        <!-- ===CATEGORIES=== -->
+        <section class="categories">
+            <h2 class="section-title">Shop by Category</h2>
+            <p class="section-p">Explore our diverse range of products across multiple categories</p>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🎧</div>
+                    <h3>Electronics</h3>
+                    <p>3 Products</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">👜</div>
+                    <h3>Fashion</h3>
+                    <p>2 Products</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">👟</div>
+                    <h3>Sports</h3>
+                    <p>2 Products</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">🏠</div>
+                    <h3>Home</h3>
+                    <p>1 Products</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===PRODUCTS=== -->
+        <section class="products" id="products">
+            <div class="products-container">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-p">Discover our handpicked selection of premium products that combine quality, style, and value</p>
+
+                <!-- ===PRODUCTS GRID TOP=== -->
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/headphone.jpg" alt="Wireless Headphones" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">ELECTRONICS</div>
+                            <h3 class="product-name">Wireless Pro Headphones</h3>
+                            <p>Premium wireless headphones with active noise cancellation and 30-hour battery life.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$299.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=1) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/smart-watch.jpg" alt="   Smart Watch" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">ELECTRONICS</div>
+                            <h3 class="product-name">Smart Watch Series X</h3>
+                            <p>Advanced smartwatch with health monitoring, GPS, and always-on display.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$449.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=2) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/purse.jpg" alt="Leather Purse" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">FASHION</div>
+                            <h3 class="product-name">Minimalist Leather Bag</h3>
+                            <p>Handcrafted genuine leather bag with minimalist design and premium finish.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$189.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=3) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/running-shoes.jpg" alt="Running Shoes" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">SPORTS</div>
+                            <h3 class="product-name">Premium Running Shoes</h3>
+                            <p>Ultra-light weight running shoes with responsive cushioning technology.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$159.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=4) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/glasses.jpg" alt="Sunglasses" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">FASHION</div>
+                            <h3 class="product-name">Sunglasses</h3>
+                            <p>Classic sunglasses with UV protection and premium lenses.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$129.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=5) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/jbl-speaker.jpg" alt="JBL Speaker" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">ELECTRONICS</div>
+                            <h3 class="product-name">Portable Speaker JBL</h3>
+                            <p>Waterproof portable speaker with 360° sound and 20-hours playtime.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$79.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=6) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/coffee-mug.jpg" alt="Coffee Mug" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">HOME</div>
+                            <h3 class="product-name">Ceramic Coffee Mug</h3>
+                            <p>Artisan ceramic mug with classic look.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$49.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=7) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="/static/images/yoga-mat.jpg" alt="Yoga Mat" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">SPORTS</div>
+                            <h3 class="product-name">Premium Yoga Mat</h3>
+                            <p>Eco-friendly yoga mat with superior grip and cushioning.</p>
+
+                            <div class="product-action">
+                                <span class="product-price">$89.99</span>
+                                <form action="{{ url_for('add_to_cart', product_id=8) }}"
+                                    method="get"
+                                    style="display:inline;"> 
+                                    <button type="submit" class="btn btn-outline">🛒 Add</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/purse.jpg" alt="Leather Purse" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">FASHION</div>
-                        <h3 class="product-name">Minimalist Leather Bag</h3>
-                        <p>Handcrafted genuine leather bag with minimalist design and premium finish.</p>
+        <!-- ===PROMO=== -->
+        <section class="promo">
+            <div class="promo-container">
+                <span class="promo-badge">Limited Time Offer</span>
+                <h2>Get 20% Off Your First Order</h2>
+                <p>Sign up now and receive an exclusive discount on your first purchase. Don't miss out on amazing deals!</p>
 
-                        <div class="product-action">
-                            <span class="product-price">$189.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 3) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/running-shoes.jpg" alt="Running Shoes" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">SPORTS</div>
-                        <h3 class="product-name">Premium Running Shoes</h3>
-                        <p>Ultra-light weight running shoes with responsive cushioning technology.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$159.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 4) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/glasses.jpg" alt="Sunglasses" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">FASHION</div>
-                        <h3 class="product-name">Sunglasses</h3>
-                        <p>Classic sunglasses with UV protection and premium lenses.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$129.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 5) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/jbl-speaker.jpg" alt="JBL Speaker" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">ELECTRONICS</div>
-                        <h3 class="product-name">Portable Speaker JBL</h3>
-                        <p>Waterproof portable speaker with 360° sound and 20-hours playtime.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$79.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 6) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/coffee-mug.jpg" alt="Coffee Mug" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">HOME</div>
-                        <h3 class="product-name">Ceramic Coffee Mug</h3>
-                        <p>Artisan ceramic mug with classic look.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$49.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 7) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="/static/images/yoga-mat.jpg" alt="Yoga Mat" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">SPORTS</div>
-                        <h3 class="product-name">Premium Yoga Mat</h3>
-                        <p>Eco-friendly yoga mat with superior grip and cushioning.</p>
-
-                        <div class="product-action">
-                            <span class="product-price">$89.99</span>
-                            <a href="{{ url_for('add_to_cart', product_id = 8) }}" class="btn btn-outline">🛒 Add</a>
-                        </div>
-                    </div>
+                <div class="promo-button">
+                    <a href="/login" class="btn-promo">Shop Now</a>
                 </div>
             </div>
-        </div>
-     </section>
+        </section>
 
-    <!-- ===PROMO=== -->
-     <section class="promo">
-        <div class="promo-container">
-            <span class="promo-badge">Limited Time Offer</span>
-            <h2>Get 20% Off Your First Order</h2>
-            <p>Sign up now and receive an exclusive discount on your first purchase. Don't miss out on amazing deals!</p>
+        <!-- ===FEATURES=== -->
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Free Shipping</h3>
+                    <p>On orders over $100</p>
+                </div>
 
-            <div class="promo-button">
-                <a href="/login" class="btn-promo">Shop Now</a>
+                <div class="feature">
+                    <div class="feature-icon">💳</div>
+                    <h3>Secure Payment</h3>
+                    <p>100% protected</p>
+                </div> 
+
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Easy Returns</h3>
+                    <p>30-day return policy</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Always here to help</p>
+                </div>
             </div>
-        </div>
-     </section>
+        </section>
 
-    <!-- ===FEATURES=== -->
-     <section class="features">
-        <div class="features-grid">
-            <div class="feature">
-                <div class="feature-icon">🚚</div>
-                <h3>Free Shipping</h3>
-                <p>On orders over $100</p>
-            </div>
+        <!-- ===FOOTER=== -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><img src="/static/images/logo-footer.jpg" alt="Logo" class="logo-footer">Power-Shop</h4>
+                    <p>Your one-stop destination for premium products. Quality meets style in every purchase.</p>
+                </div>
 
-            <div class="feature">
-                <div class="feature-icon">💳</div>
-                <h3>Secure Payment</h3>
-                <p>100% protected</p>
-            </div> 
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="/login">Login</a>
+                    <a href="/signup">Sign Up</a>
+                </div>
 
-            <div class="feature">
-                <div class="feature-icon">🔄</div>
-                <h3>Easy Returns</h3>
-                <p>30-day return policy</p>
-            </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <a href="#">Electronics</a>
+                    <a href="#">Fashion</a>
+                    <a href="#">Sports</a>
+                    <a href="#">Home</a>
+                </div>
 
-            <div class="feature">
-                <div class="feature-icon">📞</div>
-                <h3>24/7 Support</h3>
-                <p>Always here to help</p>
-            </div>
-        </div>
-     </section>
-
-    <!-- ===FOOTER=== -->
-     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4><img src="/static/images/logo-footer.jpg" alt="Logo" class="logo-footer">Power-Shop</h4>
-                <p>Your one-stop destination for premium products. Quality meets style in every purchase.</p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="/">Home</a>
-                <a href="#products">Products</a>
-                <a href="/login">Login</a>
-                <a href="/signup">Sign Up</a>
-            </div>
-
-            <div class="footer-section">
-                <h4>Categories</h4>
-                <a href="#">Electronics</a>
-                <a href="#">Fashion</a>
-                <a href="#">Sports</a>
-                <a href="#">Home</a>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>📍 123 Main Street, City, Country</p>
+                    <p>✉️ support@powershop.com</p>
+                    <p>📞 +1 (123) 456-7890</p>
+                </div>
             </div>
 
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <p>📍 123 Main Street, City, Country</p>
-                <p>✉️ support@powershop.com</p>
-                <p>📞 +1 (123) 456-7890</p>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Power-Shop. All rights reserved. Demo Project</p>
             </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2024 Power-Shop. All rights reserved. Demo Project</p>
-        </div>
-     </footer>
+        </footer>
+    {% endblock %}
 </body>
 </html>

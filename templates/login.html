@@ -60,13 +60,23 @@
         </div>
     </div>
     
-    <!-- ===ERROR MESSAGE=== -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="toast-error">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <!-- ===ERROR & SUCCESS MESSAGE=== -->
+    <div class="toast-container">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="toast toast-{{ category }}">
+                        {% if category == 'success' %}
+                            <span class="toast-icon">✅</span>
+                        {% elif category == 'error' %}
+                            <span class="toast-icon">⚠️</span>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
 </body>
 </html>

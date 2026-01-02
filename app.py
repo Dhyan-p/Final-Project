@@ -15,9 +15,9 @@ app.secret_key = 'power-shop-secret-key-2025'
 # ==============================
 # Each product contains pricing, category, image path, and a maximum quantity allowed per user in the cart.
 PRODUCTS = [
-    {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphones.jpg", "max_quantity": 5},
+    {"id": 1, "name": "Wireless Pro Headphones", "price": 299.99, "category": "Electronics", "image": "/static/images/headphone.jpg", "max_quantity": 5},
 
-    {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smartwatch.jpg", "max_quantity": 4}, 
+    {"id": 2, "name": "Smart Watch Series X", "price": 449.99, "category": "Electronics", "image": "/static/images/smart-watch.jpg", "max_quantity": 4}, 
 
     {"id": 3, "name": "Minimalist Leather Bag", "price": 189.99, "category": "Fashion", "image": "/static/images/purse.jpg", "max_quantity": 5},
 
@@ -144,16 +144,17 @@ def login():
         
         # Check if the email exists before validating password
         if not user_exists(email):
-            flash('Email not registered')
+            flash('Email not registered', 'error')
             return render_template('login.html')
         
         user = verify_user(email, password)
 
         if not user: 
-            flash('password not matched')
+            flash('password not matched', 'error')
             return render_template('login.html')
 
         # Successful login
+        flash('Login Successful', 'success')
         session['user'] = user
         session['cart'] = {}
 
@@ -180,13 +181,15 @@ def signup():
         confirm_password = request.form.get('confirm_password')
 
         if password != confirm_password:
-            flash('Passwords do not match')
+            flash('Passwords do not match', 'error')
             return render_template('signup.html')
         
         if user_exists(email):
-            flash('Email already registered')
+            flash('Email already registered', 'error')
             return render_template('signup.html')
         
+        # Account created successfully
+        flash('Account created successfully', 'success')
         save_user(email, name, password)
 
         # Auto-login after successful signup
@@ -281,11 +284,42 @@ def add_to_cart(product_id):
     # Find product by ID
     product = next((p for p in PRODUCTS if p['id'] == product_id), None)
     if not product:
+        flash("Product not found!", "error")
         return redirect(url_for('index'))
 
     pid = str(product_id)
-    current_quantity = cart.get(pid, 0)
 
+    if pid not in cart:
+        cart[pid] = 1
+        flash(f'{product["name"]} is added to the cart', "success")
+    else:
+        flash(f'{product['name']} is already in the cart', "error")
+
+    session['cart'] = cart
+    return redirect(url_for('index'))
+
+# ------------------------------
+# Increase Quantity
+# ------------------------------
+@app.route('/increase/<int:product_id>')
+def increase(product_id):
+    """
+    Increase the quantity of a product in the cart by 1.
+    """
+    if 'cart' not in session or not isinstance(session['cart'], dict):
+        session['cart'] = {}
+
+    cart = session['cart']
+    pid = str(product_id)
+
+    # Find the product in PRODUCTS list
+    product = next((p for p in PRODUCTS if p['id'] == product_id), None)
+    if not product:
+        flash("Product not found!", "error")
+        return redirect(url_for('index'))
+    
+    # Only increase if below max_quantity
+    current_quantity = cart.get(pid, 0)
     if current_quantity < product['max_quantity']:
         cart[pid] = current_quantity + 1
 

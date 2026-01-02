@@ -7,67 +7,68 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    
+    <!-- ===RENDERS INDEX_LOGGED_IN.HTML AS BACKGROUND=== -->
+     {% include "index_logged_in.html" %}
+
     <!-- ===CART OVERLAY=== -->
-    <div class="cart-overlay">
+    <div class="cart-overlay"></div>
 
-        <!-- ===CART SIDEBAR=== -->
-        <div class="cart-panel">
+    <!-- ===CART SIDEBAR=== -->
+    <div class="cart-panel">
 
-            <!-- ===HEADER=== -->
-            <div class="cart-header">
-                <div class="cart-title">
-                    🛍️ <span>Shopping Cart</span>
+        <!-- ===HEADER=== -->
+        <div class="cart-header">
+            <div class="cart-title">
+                🛍️ <span>Shopping Cart</span>
+            </div>
+            <a href="/" class="cart-close">✕</a>
+        </div>
+
+        <hr>
+
+        <!-- ===PRODUCT DETAILS=== -->
+         <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ item.product.image }}" alt="{{ item.product.name }}">
+
+                <div class="item-details">
+                    <h4>{{ item.product.name }}</h4>
+
+                    <p class="price"> ${{ "%.2f"|format(item.product.price) }} </p>
+
+                    <div class="quantity-control">
+                        <a href="/decrease/{{ item.product.id }}">-</a>
+                        <span>{{ item.quantity }}</span>
+
+                        {% if item.quantity < item.product.max_quantity %}
+                            <a href="/increase/{{ item.product.id }}">+</a>
+                        {% else %}
+                            <span class="max">Max</span>
+                        {% endif %}
+                    </div>
                 </div>
-                <a href="/" class="cart-close">✕</a>
+
+                <a href="/remove-from-cart/{{ item.product.id }}" class="remove-btn">🗑️</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <!-- ===CART FOOTER=== -->
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span>
+                    ${{ "%.2f"|format(cart_items | sum(attribute='item_total')) }}
+                </span>
             </div>
 
-            <hr>
-
-            <!-- ===PRODUCT DETAILS=== -->
-             <div class="cart-items">
-                {% for item in cart_items %}
-                <div class="cart-item">
-                    <img src="{{ url_for('static', filename=item.product.image) }}" alt="{{ item.product.name }}">
-
-                    <div class="item-details">
-                        <h4>{{ item.product.name }}</h4>
-
-                        <p class="price"> ${{ "%.2f"|format(item.product.price) }} </p>
-
-                        <div class="quantity-control">
-                            <a href="/decrease/{{ item.product.id }}">-</a>
-                            <span>{{ item.quantity }}</span>
-
-                            {% if item.quantity < item.product.max_quantity %}
-                                <a href="/add_to_cart/{{ item.product.id }}">+</a>
-                            {% else %}
-                                <span class="max">Max</span>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <a href="/remove-from-cart/{{ item.product.id }}" class="remove-btn">🗑️</a>
-                </div>
-                {% endfor %}
-             </div>
-
-            <hr>
-
-            <!-- ===CART FOOTER=== -->
-             <div class="cart-footer">
-                <div class="cart-total">
-                    <span>Total</span>
-                    <span>
-                        ${{ "%2.f"|format(cart_items | sum(attribute='item_total')) }}
-                    </span>
-                </div>
-
-                <a href="/checkout" class="btn checkout-btn">Checkout</a>
-                <a href="/" class="btn continue-btn">Continue Shopping</a>
-             </div>
-
+            <a href="/checkout" class="btn checkout-btn">Checkout</a>
+            <a href="/" class="btn continue-btn">Continue Shopping</a>
         </div>
+
     </div>
     
 </body>
