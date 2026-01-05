@@ -126,17 +126,10 @@ project_root/
 ---
 
 ## ⚙️ Installation & Running the App
-1. Clone the repository:
-    ```bash
-    gh repo clone Dhyan-p/Final-Project
-
-2. Nabigate into the project directory:
-    cd Final-Project
-
-3. Install dependencies:
+1. Install dependencies:
     pip install -r requirements.txt
 
-4. Start the web app locally:
+2. Start the web app locally:
     Open new terminal and enter following.
     python app.py
 
