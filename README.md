@@ -179,7 +179,7 @@ Consistent branding and color palette across all pages
 | **AI Image Tools** | Genspark AI Image Prompt Creator – assisted in creating product and branding image prompts <br> E-Commerce Product Image Pro – generated product images for homepage and categories |
 | **Libraries & Frameworks** | Flask – backend framework <br> Jinja2 – templating engine for dynamic content rendering |
 
-> This project emphasizes learning and demo purposes. All AI-generated resources were used to assist design, context, and documentation clarity.
+> This project emphasizes learning and demo purposes. All AI-generated resources were used to assist design, text, and documentation clarity.
 
 ---
 
