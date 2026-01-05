@@ -191,4 +191,4 @@ Consistent branding and color palette across all pages
 
 This is a demo project. No real database or payment gateway is connected.
 User data is stored in users.txt for demonstration purposes only.
-Images were generated using AI tools, and ChatGPT helped create documentation and context for the website content.
+Images were generated using AI tools, and ChatGPT helped create documentation and text for the website content.
