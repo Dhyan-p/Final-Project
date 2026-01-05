@@ -127,10 +127,13 @@ project_root/
 
 ## ⚙️ Installation & Running the App
 1. Install dependencies:
+    Open new terminal and enter following:
+    ```bash
     pip install -r requirements.txt
 
 2. Start the web app locally:
-    Open new terminal and enter following.
+    Open new terminal and enter following:
+    ```bash
     python app.py
 
     ---
