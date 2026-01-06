@@ -10,6 +10,24 @@
     <!-- ===RENDERS INDEX_LOGGED_IN.HTML AS BACKGROUND=== -->
      {% include "index_logged_in.html" %}
 
+    <!-- ===ERROR & SUCCESS MESSAGE=== -->
+    <div class="toast-container">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="toast toast-{{ category }}">
+                        {% if category == 'success' %}
+                            <span class="toast-icon">✅</span>
+                        {% elif category == 'error' %}
+                            <span class="toast-icon">⚠️</span>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <!-- ===CART OVERLAY=== -->
     <div class="cart-overlay"></div>
 

@@ -383,7 +383,9 @@ def checkout():
         return redirect(url_for('login'))
     
     session['cart'] = {}
+    flash("Order Placed", "success")
     return redirect(url_for('index'))
+    
 
 # ------------------------------
 # Application Runner
