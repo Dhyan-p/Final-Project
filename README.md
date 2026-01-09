@@ -126,12 +126,19 @@ project_root/
 ---
 
 ## ⚙️ Installation & Running the App
-1. Install dependencies:
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Dhyan-p/Final-Project.git
+
+2. Nabigate into the project directory:
+    cd Final-Project
+
+3. Install dependencies:
     Open new terminal and enter following:
     ```bash
     pip install -r requirements.txt
 
-2. Start the web app locally:
+4. Start the web app locally:
     Open new terminal and enter following:
     ```bash
     python app.py
