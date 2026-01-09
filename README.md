@@ -145,7 +145,7 @@ project_root/
 
     ---
 
-    The terminal will show a local URL (eg., http://127.0.0.1:5000). Open this link in your browser to access the website. 
+    The terminal will show a local URL (eg., http://127.0.0.1:5000). Open that link in your browser to access the website. 
 
 ---
 
